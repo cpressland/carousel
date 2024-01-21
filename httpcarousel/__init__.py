@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Generator
 
 import uvicorn
 from fastapi import FastAPI, Request
@@ -21,13 +20,13 @@ config = Config()
 app = FastAPI()
 
 
-templates = Jinja2Templates(directory="carousel/templates")
-app.mount("/static", StaticFiles(directory="carousel/static"), name="static")
+templates = Jinja2Templates(directory=Path(__file__).parent / "templates")
+app.mount("/static", StaticFiles(directory=Path(__file__) / "static"), name="static")
 app.mount("/images", StaticFiles(directory=config.image_directory), name="images")
 
 
-def get_files() -> Generator[str]:
-    return (p.name for p in config.image_directory.glob("*") if p.suffix in [".jpeg", ".jpg", ".png"])
+def get_files() -> list[str]:
+    return list(p.name for p in config.image_directory.glob("*") if p.suffix in [".jpeg", ".jpg", ".png"])
 
 
 @app.get("/")
@@ -39,7 +38,7 @@ def root(request: Request) -> HTMLResponse:
 def carousel_js(request: Request) -> PlainTextResponse:
     return templates.TemplateResponse(
         "carousel.js.j2",
-        {"request": request, "count": len(list(get_files())), "interval": config.interval},
+        {"request": request, "count": len(get_files()), "interval": config.interval},
     )
 
 
