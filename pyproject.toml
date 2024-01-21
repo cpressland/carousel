@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "carousel"
+name = "httpcarousel"
 version = "0.0.0"
 description = "Simple HTTP Server to serve a directory of images which frequently rotate"
 authors = ["Chris Pressland <mail@cpressland.io>"]
@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.scripts]
-carousel = "carousel:run"
+carousel = "httpcarousel:run"
 
 [tool.poetry.dependencies]
 python = "^3.9"
