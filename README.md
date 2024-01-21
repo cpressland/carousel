@@ -17,9 +17,10 @@ Description=httpcarousel
 After=network.target
 
 [Service]
-Type=notify
+Type=simple
 User=debian
 Group=debian
+Environment="CAROUSEL_IMAGE_DIRECTORY=/home/debian/images"
 ExecStart=/home/debian/.local/pipx/venvs/httpcarousel/bin/carousel
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
